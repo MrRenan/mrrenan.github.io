@@ -1,13 +1,901 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <link rel="stylesheet" href="path/to/your/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renan Leite · Java Backend Developer</title>
+  <meta name="description" content="Portfólio de Renan de Carli Leite — Java Backend Developer em São Paulo, especialista em microsserviços, Spring Boot e arquitetura moderna." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:       #080c14;
+      --bg2:      #0e1420;
+      --bg3:      #141b2a;
+      --border:   rgba(255,255,255,0.07);
+      --text:     #e8eaf0;
+      --muted:    #6b7a99;
+      --accent:   #00e5a0;
+      --accent2:  #3b82f6;
+      --accent-glow: rgba(0,229,160,0.18);
+      --mono: 'JetBrains Mono', monospace;
+      --display: 'Syne', sans-serif;
+      --body: 'DM Sans', sans-serif;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--muted); }
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .nav-links li { text-transform: uppercase; cursor: pointer; transition: color .2s; }
+    .nav-links li:hover { color: var(--accent); }
+    .nav-cta {
+      font-family: var(--mono); font-size: 0.78rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+      transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 4rem 5rem;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.7rem;
+    }
+    .hero-tag::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--accent);
+    }
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    h1 .line2 { color: var(--accent); }
+    .hero-sub {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 440px;
+      line-height: 1.7;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--bg);
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.06em; padding: 0.8rem 1.8rem;
+      border-radius: 6px; transition: opacity .2s, transform .2s;
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--muted);
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em;
+      padding: 0.8rem 1.8rem; border-radius: 6px;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Terminal card */
+    .hero-terminal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(0,229,160,0.07), 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .terminal-bar {
+      background: var(--bg3);
+      padding: 0.8rem 1.2rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f56; }
+    .dot.y { background: #ffbd2e; }
+    .dot.g { background: #27c93f; }
+    .terminal-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--muted); margin-left: auto; margin-right: auto;
+    }
+    .terminal-body {
+      padding: 1.8rem;
+      font-family: var(--mono); font-size: 0.82rem; line-height: 2;
+    }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); padding-left: 1.2rem; }
+    .t-key { color: var(--accent2); }
+    .t-val { color: #f9a825; }
+    .t-string { color: #e06c75; }
+    .t-comment { color: #4b5a73; }
+    .cursor {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--accent); margin-left: 2px; vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 6rem 4rem; position: relative; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: var(--display); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 100%; height: 1px; background: var(--border); margin: 0;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+    }
+    .about-card-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+    .info-row {
+      display: flex; justify-content: space-between;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { color: var(--muted); font-family: var(--mono); font-size: 0.78rem; }
+    .info-val { color: var(--text); font-weight: 500; }
+    .info-val.accent { color: var(--accent); }
+    .about-text p {
+      color: var(--muted); font-size: 1rem; line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-badges {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .badge {
+      font-family: var(--mono); font-size: 0.72rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted); padding: 0.3rem 0.7rem; border-radius: 4px;
+    }
+    .badge.highlight {
+      border-color: var(--accent); color: var(--accent); background: var(--accent-glow);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills {}
+    .skills-header { margin-bottom: 3rem; }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem;
+      transition: border-color .25s;
+    }
+    .skill-group:hover { border-color: rgba(0,229,160,0.3); }
+    .skill-group-icon {
+      font-size: 1.5rem; margin-bottom: 0.8rem;
+    }
+    .skill-group-title {
+      font-family: var(--display); font-weight: 700;
+      font-size: 0.95rem; margin-bottom: 1rem;
+    }
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .skill-tag {
+      font-family: var(--mono); font-size: 0.72rem;
+      padding: 0.3rem 0.65rem; border-radius: 4px;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted); transition: all .2s;
+    }
+    .skill-group:hover .skill-tag { border-color: rgba(0,229,160,0.2); }
+    .skill-tag.primary {
+      background: var(--accent-glow); border-color: rgba(0,229,160,0.4);
+      color: var(--accent);
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: rgba(0,229,160,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,229,160,0.05);
+    }
+    .project-header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .project-badge {
+      font-family: var(--mono); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--accent); background: var(--accent-glow);
+      border: 1px solid rgba(0,229,160,0.3);
+      padding: 0.25rem 0.6rem; border-radius: 3px;
+      display: inline-block; margin-bottom: 1rem;
+    }
+    .project-badge.blue {
+      color: var(--accent2); background: rgba(59,130,246,0.1);
+      border-color: rgba(59,130,246,0.3);
+    }
+    .project-title {
+      font-family: var(--display); font-size: 1.4rem;
+      font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.01em;
+    }
+    .project-desc {
+      color: var(--muted); font-size: 0.9rem; line-height: 1.7;
+    }
+    .project-body { padding: 1.5rem 2rem; flex: 1; }
+    .project-arch {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--muted); margin-bottom: 1.2rem;
+      border-left: 2px solid var(--accent); padding-left: 0.8rem;
+      line-height: 1.9;
+    }
+    .project-arch span { color: var(--accent2); }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem;
+    }
+    .project-tag {
+      font-family: var(--mono); font-size: 0.68rem;
+      padding: 0.25rem 0.55rem; border-radius: 3px;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .project-footer {
+      padding: 1.2rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .proj-link {
+      font-family: var(--mono); font-size: 0.75rem;
+      color: var(--muted); display: flex; align-items: center; gap: 0.4rem;
+      transition: color .2s;
+    }
+    .proj-link:hover { color: var(--accent); }
+    .proj-link svg { width: 14px; height: 14px; }
+    .wip-pill {
+      margin-left: auto;
+      font-family: var(--mono); font-size: 0.65rem;
+      background: rgba(249,168,37,0.1); border: 1px solid rgba(249,168,37,0.3);
+      color: #f9a825; padding: 0.2rem 0.55rem; border-radius: 3px;
+      letter-spacing: 0.08em;
+    }
+
+    /* Microservices diagram */
+    .ms-diagram {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.2rem;
+      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+      line-height: 2; margin-top: 1rem;
+    }
+    .ms-service {
+      display: inline-block;
+      background: var(--bg2); border: 1px solid rgba(0,229,160,0.25);
+      color: var(--accent); padding: 0.15rem 0.5rem; border-radius: 3px;
+      margin: 0.1rem;
+    }
+    .ms-arrow { color: var(--border); }
+
+    /* ─── CONTACT ─── */
+    #contact {}
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .contact-text h2 { margin-bottom: 1rem; }
+    .contact-text p { color: var(--muted); line-height: 1.8; }
+    .contact-links {
+      display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem 1.5rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .contact-link:hover {
+      border-color: rgba(0,229,160,0.4); transform: translateX(4px);
+    }
+    .contact-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: var(--accent-glow); border: 1px solid rgba(0,229,160,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .contact-info-label {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .contact-info-val { font-size: 0.95rem; font-weight: 500; margin-top: 0.1rem; }
+
+    /* Status card */
+    .status-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2.5rem; text-align: center;
+    }
+    .status-dot {
+      display: inline-block; width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+      margin-right: 0.5rem; vertical-align: middle;
+    }
+    @keyframes pulse {
+      0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)}
+    }
+    .status-text {
+      font-family: var(--mono); font-size: 0.82rem;
+      color: var(--accent);
+    }
+    .status-title {
+      font-family: var(--display); font-size: 1.8rem;
+      font-weight: 800; margin: 1.5rem 0 0.5rem;
+    }
+    .status-sub { color: var(--muted); font-size: 0.9rem; }
+    .status-divider { width: 40px; height: 2px; background: var(--accent); margin: 1.5rem auto; }
+    .status-stats {
+      display: flex; gap: 0; margin-top: 1.5rem;
+    }
+    .stat-item { flex: 1; padding: 1rem; border: 1px solid var(--border); }
+    .stat-item:first-child { border-radius: 8px 0 0 8px; }
+    .stat-item:last-child { border-radius: 0 8px 8px 0; }
+    .stat-item:not(:last-child) { border-right: none; }
+    .stat-num {
+      font-family: var(--display); font-size: 1.6rem;
+      font-weight: 800; color: var(--accent);
+    }
+    .stat-label {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-top: 0.2rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    }
+    .footer-copy span { color: var(--accent); }
+    .footer-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .footer-links a {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--muted); transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ─── GLOW BG EFFECTS ─── */
+    .glow-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); pointer-events: none; z-index: 0;
+    }
+    .orb1 { width: 500px; height: 500px; background: rgba(0,229,160,0.04); top: -100px; right: -100px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(59,130,246,0.04); bottom: 0; left: -100px; }
+    .section-inner { position: relative; z-index: 1; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-terminal { display: none; }
+      footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+      .footer-links { justify-content: center; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Hello World</h1>
-    <script src="path/to/your/script.js"></script>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo"><span>//</span> renan.leite</div>
+    <ul class="nav-links">
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projetos</a></li>
+      <li><a href="#contact">Contato</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Vamos conversar →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="glow-orb orb1"></div>
+    <div class="glow-orb orb2"></div>
+    <div class="hero-grid section-inner">
+      <div>
+        <div class="hero-tag reveal">Java Backend Developer</div>
+        <h1 class="reveal reveal-delay-1">
+          Renan<br>
+          <span class="line2">de Carli</span><br>
+          Leite
+        </h1>
+        <p class="hero-sub reveal reveal-delay-2">
+          Desenvolvedor backend com foco em <strong>microsserviços</strong>,
+          <strong>arquitetura limpa</strong> e ecossistema <strong>Java/Spring</strong>.
+          Construindo sistemas que escalam — do legado ao moderno.
+        </p>
+        <div class="hero-actions reveal reveal-delay-3">
+          <a class="btn-primary" href="#projects">Ver projetos</a>
+          <a class="btn-ghost" href="https://github.com/MrRenan" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <!-- Terminal -->
+      <div class="hero-terminal reveal reveal-delay-2">
+        <div class="terminal-bar">
+          <span class="dot r"></span>
+          <span class="dot y"></span>
+          <span class="dot g"></span>
+          <span class="terminal-title">renan@portfolio ~ whoami</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt">$</span> <span class="t-cmd">cat developer.json</span></div>
+          <div class="t-out">{</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-string">"Renan de Carli Leite"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-string">"Java Backend Developer"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"company"</span>: <span class="t-string">"Agibank"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-string">"São Paulo, SP 🇧🇷"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"stack"</span>: [<span class="t-string">"Java 21"</span>, <span class="t-string">"Spring Boot 3"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-string">"Microsserviços"</span>, <span class="t-string">"Docker"</span>],</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"education"</span>: <span class="t-string">"FIAP — Arq. Java"</span>,</div>
+          <div class="t-out">&nbsp;&nbsp;<span class="t-key">"open_to_work"</span>: <span class="t-val">true</span></div>
+          <div class="t-out">}</div>
+          <div style="margin-top:0.5rem"><span class="t-prompt">$</span> <span class="t-cmd"></span><span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="glow-orb orb1"></div>
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="section-label">// 01 — Sobre</div>
+          <h2>Quem sou eu</h2>
+          <div class="about-card" style="margin-top:2rem">
+            <div class="about-card-title">// Info</div>
+            <div class="info-row">
+              <span class="info-key">empresa</span>
+              <span class="info-val">Agibank</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">localização</span>
+              <span class="info-val">São Paulo, SP</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">formação</span>
+              <span class="info-val">FIAP — Pós Java</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">foco</span>
+              <span class="info-val accent">Backend · Microsserviços</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">status</span>
+              <span class="info-val accent">● Aberto a oportunidades</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-text reveal reveal-delay-1">
+          <p>
+            Sou desenvolvedor backend com experiência em <strong>sistemas legados e modernização de arquitetura</strong>.
+            Atualmente na Agibank, onde aplico diariamente os conceitos de qualidade de código, manutenibilidade e evolução incremental de sistemas em produção.
+          </p>
+          <p>
+            Concluí a pós-graduação em <strong>Arquitetura e Desenvolvimento Java na FIAP</strong> (2025),
+            onde aprofundei microsserviços, DDD, Clean Architecture e práticas DevOps —
+            habilidades que aplico nos projetos do meu portfólio.
+          </p>
+          <p>
+            Me interessa resolver problemas reais com código limpo, bem testado e arquitetado para crescer.
+            Estou buscando minha próxima posição como <strong>Desenvolvedor Pleno</strong> em um time que valorize boas práticas.
+          </p>
+          <div class="about-badges">
+            <span class="badge highlight">Arquitetura Hexagonal</span>
+            <span class="badge highlight">Spring Boot 3</span>
+            <span class="badge highlight">Java 21</span>
+            <span class="badge">Clean Code</span>
+            <span class="badge">TDD</span>
+            <span class="badge">SOLID</span>
+            <span class="badge">Docker</span>
+            <span class="badge">CI/CD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="skills-header">
+        <div class="section-label reveal">// 02 — Tecnologias</div>
+        <h2 class="reveal reveal-delay-1">Stack & Ferramentas</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">☕</div>
+          <div class="skill-group-title">Core Java</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Java 21</span>
+            <span class="skill-tag primary">Spring Boot 3</span>
+            <span class="skill-tag">Spring MVC</span>
+            <span class="skill-tag primary">Spring WebFlux</span>
+            <span class="skill-tag">Spring Security</span>
+            <span class="skill-tag">JPA / Hibernate</span>
+            <span class="skill-tag">Gradle</span>
+            <span class="skill-tag">Maven</span>
+          </div>
+        </div>
+        <div class="skill-group reveal reveal-delay-1">
+          <div class="skill-group-icon">🏗️</div>
+          <div class="skill-group-title">Arquitetura</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Microsserviços</span>
+            <span class="skill-tag primary">Arq. Hexagonal</span>
+            <span class="skill-tag">Clean Architecture</span>
+            <span class="skill-tag">DDD</span>
+            <span class="skill-tag">SOLID</span>
+            <span class="skill-tag">Design Patterns</span>
+            <span class="skill-tag">REST APIs</span>
+          </div>
+        </div>
+        <div class="skill-group reveal reveal-delay-2">
+          <div class="skill-group-icon">🗄️</div>
+          <div class="skill-group-title">Dados</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">PostgreSQL</span>
+            <span class="skill-tag primary">MongoDB</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Spring Data</span>
+            <span class="skill-tag">SQL avançado</span>
+            <span class="skill-tag">Transações / ACID</span>
+          </div>
+        </div>
+        <div class="skill-group reveal reveal-delay-3">
+          <div class="skill-group-icon">📨</div>
+          <div class="skill-group-title">Mensageria & Integração</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">RabbitMQ</span>
+            <span class="skill-tag">Amazon SQS</span>
+            <span class="skill-tag">OpenAI API</span>
+            <span class="skill-tag">Twilio (WhatsApp)</span>
+            <span class="skill-tag">Swagger / OpenAPI</span>
+            <span class="skill-tag">JWT</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-icon">🧪</div>
+          <div class="skill-group-title">Testes & Qualidade</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">JUnit 5</span>
+            <span class="skill-tag primary">Mockito</span>
+            <span class="skill-tag primary">Testcontainers</span>
+            <span class="skill-tag">Jacoco</span>
+            <span class="skill-tag">SonarQube</span>
+            <span class="skill-tag">TDD</span>
+          </div>
+        </div>
+        <div class="skill-group reveal reveal-delay-1">
+          <div class="skill-group-icon">🚀</div>
+          <div class="skill-group-title">DevOps & Cloud</div>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Docker</span>
+            <span class="skill-tag primary">Docker Compose</span>
+            <span class="skill-tag primary">GitHub Actions</span>
+            <span class="skill-tag">AWS (EB / ECS)</span>
+            <span class="skill-tag">Git / Git Flow</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <div class="section-label reveal">// 03 — Projetos</div>
+      <h2 class="reveal reveal-delay-1">O que tenho construído</h2>
+
+      <div class="projects-grid">
+
+        <!-- MyFitnessPartner -->
+        <div class="project-card reveal">
+          <div class="project-header">
+            <div class="project-badge">Em desenvolvimento</div>
+            <div class="project-title">MyFitnessPartner</div>
+            <div class="project-desc">
+              Assistente fitness pessoal integrado ao <strong>WhatsApp via IA</strong>. Calcula calorias, acompanha metas e orienta treinos através de conversas naturais.
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-arch">
+              <span>WhatsApp (Twilio)</span> → <span>Spring Boot API</span><br>
+              → <span>OpenAI</span> + <span>RabbitMQ</span><br>
+              → <span>PostgreSQL</span> + <span>MongoDB</span>
+            </div>
+            <div style="font-size:0.82rem; color:var(--muted); line-height:1.7; margin-top:0.8rem;">
+              Programação <strong style="color:var(--text)">reativa com Spring WebFlux</strong>, dois bancos de dados
+              (SQL estruturado + NoSQL para conversas), CI/CD via GitHub Actions e Testcontainers
+              para testes de integração reais.
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Java 21</span>
+              <span class="project-tag">Spring Boot 3</span>
+              <span class="project-tag">WebFlux</span>
+              <span class="project-tag">Gradle</span>
+              <span class="project-tag">PostgreSQL</span>
+              <span class="project-tag">MongoDB</span>
+              <span class="project-tag">RabbitMQ</span>
+              <span class="project-tag">OpenAI</span>
+              <span class="project-tag">Twilio</span>
+              <span class="project-tag">Docker</span>
+              <span class="project-tag">GitHub Actions</span>
+              <span class="project-tag">Testcontainers</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a class="proj-link" href="https://github.com/MrRenan/MyFitnessPartner" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.79 1.29 3.47.99.1-.77.41-1.29.75-1.59-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              Ver código
+            </a>
+            <span class="wip-pill">⚡ WIP</span>
+          </div>
+        </div>
+
+        <!-- Hackathon SUS -->
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-header">
+            <div class="project-badge blue">Hackathon · FIAP 2025</div>
+            <div class="project-title">Carteira Digital de Vacinação — SUS</div>
+            <div class="project-desc">
+              Sistema de microsserviços para digitalização da carteira de vacinação do SUS. Desenvolvido em equipe no hackathon de conclusão da pós-graduação na FIAP.
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="ms-diagram">
+              <div>
+                <span class="ms-service">paciente-svc</span>
+                <span class="ms-arrow"> ↔ </span>
+                <span class="ms-service">carteira-svc</span>
+              </div>
+              <div>
+                <span class="ms-service">vacina-svc</span>
+                <span class="ms-arrow"> ↔ </span>
+                <span class="ms-service">notificacao-svc</span>
+              </div>
+              <div style="margin-top:0.3rem; color: var(--muted)">cada serviço: porta isolada · MongoDB · Dockerfile</div>
+            </div>
+            <div style="font-size:0.82rem; color:var(--muted); line-height:1.7; margin-top:1rem;">
+              4 microsserviços independentes com <strong style="color:var(--text)">Arquitetura Hexagonal (Ports & Adapters)</strong>,
+              cada um com seu próprio banco MongoDB, Dockerfile e documentação Swagger.
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Java 21</span>
+              <span class="project-tag">Spring Boot 3</span>
+              <span class="project-tag">Arq. Hexagonal</span>
+              <span class="project-tag">MongoDB</span>
+              <span class="project-tag">Docker</span>
+              <span class="project-tag">Swagger</span>
+              <span class="project-tag">JUnit 5</span>
+              <span class="project-tag">Mockito</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a class="proj-link" href="https://github.com/MrRenan/hackathon-carteira" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.79 1.29 3.47.99.1-.77.41-1.29.75-1.59-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              carteira-svc
+            </a>
+            <a class="proj-link" href="https://github.com/MrRenan/hackathon-paciente" target="_blank" rel="noopener">
+              paciente-svc
+            </a>
+            <a class="proj-link" href="https://github.com/MrRenan/hackathon-vacina" target="_blank" rel="noopener">
+              vacina-svc
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <div class="section-label reveal">// 04 — Contato</div>
+          <h2 class="reveal reveal-delay-1">Vamos<br>conversar?</h2>
+          <p class="reveal reveal-delay-2" style="color:var(--muted); margin-top:1rem; line-height:1.8; max-width:380px;">
+            Estou buscando novas oportunidades como Desenvolvedor Java Backend Pleno.
+            Se você tem uma posição interessante ou só quer trocar uma ideia sobre arquitetura e código, fala comigo.
+          </p>
+          <div class="contact-links reveal reveal-delay-3">
+            <a class="contact-link" href="https://www.linkedin.com/in/renan-leite-74a81076/" target="_blank" rel="noopener">
+              <div class="contact-icon">💼</div>
+              <div>
+                <div class="contact-info-label">LinkedIn</div>
+                <div class="contact-info-val">renan-leite-74a81076</div>
+              </div>
+            </a>
+            <a class="contact-link" href="https://github.com/MrRenan" target="_blank" rel="noopener">
+              <div class="contact-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.79 1.29 3.47.99.1-.77.41-1.29.75-1.59-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">GitHub</div>
+                <div class="contact-info-val">github.com/MrRenan</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="status-card reveal reveal-delay-2">
+          <div>
+            <span class="status-dot"></span>
+            <span class="status-text">Disponível para oportunidades</span>
+          </div>
+          <div class="status-title">Ready to Ship</div>
+          <div class="status-sub">Backend Developer · Nível Pleno</div>
+          <div class="status-divider"></div>
+          <div class="status-stats">
+            <div class="stat-item">
+              <div class="stat-num">5+</div>
+              <div class="stat-label">Anos dev</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">2</div>
+              <div class="stat-label">Projetos públicos</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">Java 21</div>
+              <div class="stat-label">Stack principal</div>
+            </div>
+          </div>
+          <div style="margin-top:2rem; font-family:var(--mono); font-size:0.75rem; color:var(--muted); line-height:1.8;">
+            <span style="color:var(--accent)">✓</span> Microsserviços &amp; Arquitetura Hexagonal<br>
+            <span style="color:var(--accent)">✓</span> Spring Boot 3 + Java 21<br>
+            <span style="color:var(--accent)">✓</span> Pós-graduação FIAP (2025)<br>
+            <span style="color:var(--accent)">✓</span> Docker + CI/CD + Testcontainers
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">
+      renanleite<span>.dev.br</span> · construído com HTML, CSS &amp; café ☕
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/MrRenan" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/renan-leite-74a81076/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://mrrenan.github.io" target="_blank" rel="noopener">GitHub Pages</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.12 }
+    );
+    reveals.forEach(el => observer.observe(el));
+
+    // Trigger hero elements immediately
+    document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 100 + i * 120);
+    });
+  </script>
 </body>
 </html>
