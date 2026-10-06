@@ -272,34 +272,36 @@
         <!-- MyFitnessPartner -->
         <div class="project-card reveal">
           <div class="project-header">
-            <div class="project-badge">Em desenvolvimento</div>
+            <div class="project-badge">Beta</div>
             <div class="project-title">MyFitnessPartner</div>
             <div class="project-desc">
-              Assistente fitness pessoal integrado ao <strong>WhatsApp via IA</strong>.
-              Calcula calorias, acompanha metas e orienta treinos através de conversas naturais.
+              Assistente fitness pessoal com <strong>IA conversacional</strong>.
+              Calcula calorias, acompanha metas diárias e orienta treinos via chat —
+              com onboarding guiado por IA e interface web interativa.
             </div>
           </div>
           <div class="project-body">
             <div class="project-arch">
-              <span>WhatsApp (Twilio)</span> → <span>Spring Boot API</span><br>
-              → <span>OpenAI</span> + <span>RabbitMQ</span><br>
-              → <span>PostgreSQL</span> + <span>MongoDB</span>
+              <span>Chat Web</span> → <span>Spring Boot API</span><br>
+              → <span>Google Gemini</span> (Spring AI)<br>
+              → <span>PostgreSQL</span> + <span>JSONB</span>
             </div>
             <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; margin-top:0.8rem;">
-              Programação reativa com <strong style="color:var(--text)">Spring WebFlux</strong>, dois bancos de dados
-              (SQL estruturado + NoSQL para conversas), CI/CD via GitHub Actions e
-              Testcontainers para testes de integração reais.
+              <strong style="color:var(--text)">Clean Architecture</strong> com domain/application/infrastructure/presentation,
+              onboarding conversacional (IA coleta dados e cria o perfil automaticamente),
+              contexto de perfil + progresso diário real injetado na IA a cada turno.
+              CI/CD via GitHub Actions e Testcontainers para testes de integração reais.
+              O assistente não substitui acompanhamento médico ou nutricional profissional.
             </p>
             <div class="project-tags">
               <span class="project-tag">Java 21</span>
               <span class="project-tag">Spring Boot 3</span>
-              <span class="project-tag">WebFlux</span>
-              <span class="project-tag">Gradle</span>
+              <span class="project-tag">Spring AI</span>
+              <span class="project-tag">Gemini</span>
+              <span class="project-tag">Clean Architecture</span>
               <span class="project-tag">PostgreSQL</span>
-              <span class="project-tag">MongoDB</span>
-              <span class="project-tag">RabbitMQ</span>
-              <span class="project-tag">OpenAI</span>
-              <span class="project-tag">Twilio</span>
+              <span class="project-tag">JSONB</span>
+              <span class="project-tag">JWT</span>
               <span class="project-tag">Docker</span>
               <span class="project-tag">GitHub Actions</span>
               <span class="project-tag">Testcontainers</span>
@@ -312,7 +314,6 @@
               </svg>
               Ver código
             </a>
-            <span class="wip-pill">⚡ WIP</span>
           </div>
         </div>
 
